@@ -11,11 +11,15 @@ public partial class GrassMapManager : Component
     
     public override void Awake()
     {
+        Log.Info("GrassMapManager Awake called!");
+        
         // Initialize RNG seed
         rngSeed = RNG.Seed(Entity.NetworkId);
         
         // Initialize the grass tiles array
         grassTiles = new GrassTile[MapWidth, MapHeight];
+        
+        Log.Info($"Initialized grass tiles array: {MapWidth}x{MapHeight}");
         
         // Generate the grass map
         GenerateGrassMap();
@@ -57,6 +61,9 @@ public partial class GrassMapManager : Component
                 {
                     Network.Spawn(grassEntity);
                 }
+                
+                // Add some debugging
+                Log.Info($"Created grass tile at ({worldX}, {worldY}) - Walkable: {isWalkable}");
             }
         }
         

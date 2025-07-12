@@ -17,15 +17,30 @@ public partial class GrassTile : Component
         {
             SpriteRenderer.Texture = grassTexture;
             SpriteRenderer.Tint = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // White tint to show original texture
+            Log.Info($"Grass tile loaded texture successfully at {Entity.Position}");
         }
         else
         {
-            // Fallback to green color if texture not found
-            SpriteRenderer.Tint = new Vector4(0.2f, 0.8f, 0.2f, 1.0f);
+            // Try alternative path
+            grassTexture = Assets.GetAsset<Texture>("grass.png");
+            if (grassTexture != null)
+            {
+                SpriteRenderer.Texture = grassTexture;
+                SpriteRenderer.Tint = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+                Log.Info($"Grass tile loaded texture with alternative path at {Entity.Position}");
+            }
+            else
+            {
+                // Fallback to green color if texture not found
+                SpriteRenderer.Tint = new Vector4(0.2f, 0.8f, 0.2f, 1.0f);
+                Log.Info($"Grass tile using fallback color at {Entity.Position} - texture not found");
+            }
         }
         
         // Set the size of the grass tile
         Entity.LocalScale = new Vector2(1.0f, 1.0f);
+        
+        Log.Info($"Grass tile created at {Entity.Position} with scale {Entity.LocalScale}");
     }
     
     public void SetGridPosition(int x, int y)
